@@ -24,7 +24,16 @@ type QQwry struct {
 	file     *os.File
 }
 
-func NewQQwry(file string) (qqwry *QQwry) {
+func NewQQwry(file string) (qqwry *QQwry, err error) {
+	// 判断文件是否存在
+	// 判断文件是否存在
+	_, err = os.Stat(file)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, os.ErrNotExist
+		}
+		return nil, err
+	}
 	qqwry = &QQwry{filepath: file}
 	return
 }
